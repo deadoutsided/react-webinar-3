@@ -26,5 +26,9 @@
   "session.signIn": "Sign In",
   "session.signOut": "Sign Out",
   "comment.answer": "Answer",
-  "comments.title": "Comments"
+  "comments.title": "Comments",
+  "add.comment.title": "New comment",
+  "add.comment.placeholder": "text",
+  "add.comment.button": "Send",
+  "cancel.comment.button": "Cancel"
 }

@@ -28,5 +28,9 @@
   "session.signIn": "Вход",
   "session.signOut": "Выход",
   "comment.answer": "Ответить",
-  "comments.title": "Комментарии"
+  "comments.title": "Комментарии",
+  "add.comment.title": "Новый комментарий",
+  "add.comment.placeholder": "Текст",
+  "add.comment.button": "Отправить",
+  "cancel.comment.button": "Отменить"
 }

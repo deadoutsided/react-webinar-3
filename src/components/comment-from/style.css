@@ -1,0 +1,13 @@
+.CommentForm{
+  margin-bottom: 30px;
+}
+
+.CommentForm-title {
+  font-weight: 700;
+  font-size: 12px;
+  margin: 0 0 10px;
+}
+
+.CommentForm-button {
+  margin: 10px 0 0;
+}

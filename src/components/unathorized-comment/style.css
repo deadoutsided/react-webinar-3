@@ -1,7 +1,17 @@
 .UnathorizedComment {
-
+  margin-bottom: 30px;
 }
 
 .UnathorizedComment-text {
   font-size: 16px;
+}
+
+.UnathorizedComment-cancel {
+  opacity: 0.8;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.UnathorizedComment-cancel:hover {
+  opacity: 0.6
 }

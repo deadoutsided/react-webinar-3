@@ -30,5 +30,7 @@
   "add.comment.title": "New comment",
   "add.comment.placeholder": "text",
   "add.comment.button": "Send",
-  "cancel.comment.button": "Cancel"
+  "cancel.comment.button": "Cancel",
+  "comment.unauthorized.link": "Signin",
+  "comment.unauthorized.text": "to answer. "
 }

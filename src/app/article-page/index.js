@@ -19,6 +19,7 @@ import Comments from '../../containers/comments';
 
 function ArticlePage() {
 
+  const oldStore = useStore()
   const dispatch = useDispatch();
   // Параметры из пути /articles/:id
 
@@ -26,8 +27,10 @@ function ArticlePage() {
 
   useInit(() => {
     //store.actions.article.load(params.id);
+    oldStore.actions.session.remind();
     dispatch(articleActions.load(params.id));
     dispatch(commentsActions.load(params.id));
+    oldStore.actions.profile.load();
   }, [params.id]);
 /*
   const select = useSelector(state => ({

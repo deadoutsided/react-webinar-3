@@ -8,7 +8,7 @@ export const initialState = {
 // Обработчик действий
 function reducer(state = initialState, action) {
   switch (action.type) {
-    case "comment/send-start":
+    /* case "comment/send-start":
       return {...state, data: {}, waiting: true};
 
     case "comment/send-success":
@@ -18,7 +18,7 @@ function reducer(state = initialState, action) {
       return {...state, data: [...state.data, {_id: "form", level: 0, cancel: false}]};
 
     case "comment/send-error":
-      return {...state, data: {}, waiting: false}; //@todo текст ошибки сохранять?
+      return {...state, data: {}, waiting: false}; //@todo текст ошибки сохранять? */
 
     default:
       // Нет изменений

@@ -1,4 +1,4 @@
-import { memo, useCallback, useMemo, useState } from "react";
+import { memo, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useDispatch, useStore as useStoreRedux } from "react-redux";
 import { useSelector as useSelectorRedux } from "react-redux";
 import useTranslate from "../../hooks/use-translate";
@@ -12,15 +12,19 @@ import useSelector from "../../hooks/use-selector";
 import UnathorizedComment from "../../components/unathorized-comment";
 import { addElToCommentsArr } from "../../utils/add-el-to-arr";
 import commentsActions from "../../store-redux/comments/actions";
-import sendCommentActions from "../../store-redux/send-comment/actions";
+import useStore from "../../hooks/use-store";
+import useInit from "../../hooks/use-init";
+import { useLocation } from "react-router-dom";
 function Comments() {
   const store = useStoreRedux();
+  const location = useLocation();
+  const ref = useRef(null);
 
   const select = useSelectorRedux((state) => ({
-    data: state.comments.data,
+    data: state.comments?.data,
     count: state.comments?.count,
     article: state.article?.data,
-    currentItem: state.comments?.currentItem/*
+    currentItem: state.comments?.currentItem /*
     page: state.catalog.params.page,
     limit: state.catalog.params.limit,
     sort: state.catalog.params.sort,
@@ -28,10 +32,10 @@ function Comments() {
     count: state.catalog.count, */,
     waiting: state.comments.waiting,
   }));
-  console.log(select.data);
 
   const oldSelect = useSelector((state) => ({
     sessionStatus: state.session.exists,
+    profile: state.profile.data,
   }));
 
   const callbacks = {
@@ -43,6 +47,8 @@ function Comments() {
     onItemClick: useCallback(
       (level, id) => {
         dispatch(commentsActions.addForm(level, id));
+        console.log(ref.current);
+        setTimeout(() => ref.current.scrollIntoView({behavior: 'smooth', block: 'center'}), 0);
       },
       [commentsActions.addForm, oldSelect.sessionStatus]
     ),
@@ -50,13 +56,32 @@ function Comments() {
       //event.preventDefault();
       dispatch(commentsActions.cancelForm());
     }, [commentsActions.cancelForm]),
-    onFormSubmit: useCallback((newCommentData, level, list, article, currItem) => {
-      dispatch(sendCommentActions.submit(newCommentData, level, list, article, currItem));
-    }, [sendCommentActions.submit]),
+    onFormSubmit: useCallback(
+      (
+        newCommentData,
+        level = list.find((el) => el._id === currItem).level,
+        list,
+        article,
+        currItem,
+        profile
+      ) => {
+        dispatch(
+          commentsActions.submit(
+            newCommentData,
+            level,
+            list,
+            article,
+            currItem,
+            profile
+          )
+        );
+      },
+      [commentsActions.submit]
+    ),
   };
   const dispatch = useDispatch();
   const { t } = useTranslate();
-
+  console.log(ref);
   const renders = {
     item: useCallback(
       (item) => {
@@ -70,11 +95,22 @@ function Comments() {
               onSubmit={callbacks.onFormSubmit}
               article={select.article}
               list={select.data}
+              ref={ref}
+              profile={oldSelect.profile}
             />
           );
         }
         if (item._id === "form") {
-          return <UnathorizedComment />;
+          return (
+            <UnathorizedComment
+              t={t}
+              link={"/login"}
+              ref={ref}
+              state={{ back: location }}
+              level={item.level}
+              onCancel={callbacks.onFormCancel}
+            />
+          );
         }
         return (
           <CommentItem

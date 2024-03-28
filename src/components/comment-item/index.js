@@ -18,7 +18,7 @@ function CommentItem(props) {
   }
 
   return (
-    <div style={{marginLeft: (30 * props.item.level) + 'px'}} className={cn()}>
+    <div style={{marginLeft: (30 * (props.item.level > 10 ? 10 : props.item.level)) + 'px'}} className={cn()}>
       <SideLayout side={'start'} itemType='commentHeader'>
         <span className={cn('username')}>{props.item.author.profile.name}</span>
         <p className={cn('date')}>{convertDate({locale: 'ru-RU', date: new Date(props.item.dateCreate), dateStyle: 'long', timeStyle: 'short'})}</p>

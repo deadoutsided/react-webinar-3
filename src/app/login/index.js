@@ -19,7 +19,7 @@ function Login() {
   const location = useLocation();
   const navigate = useNavigate();
   const store = useStore();
-
+  console.log(location);
   useInit(() => {
     store.actions.session.resetErrors();
   })
@@ -45,12 +45,12 @@ function Login() {
       e.preventDefault();
       store.actions.session.signIn(data, () => {
         // Возврат на страницу, с которой пришли
+        console.log(location);
         const back = location.state?.back && location.state?.back !== location.pathname
           ? location.state?.back
           : '/';
         navigate(back);
       });
-
     }, [data, location.state])
   };
 

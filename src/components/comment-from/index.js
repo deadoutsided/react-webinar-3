@@ -1,4 +1,4 @@
-import { memo, useCallback, useState } from "react";
+import { forwardRef, memo, useCallback, useState } from "react";
 import { cn as bem } from "@bem-react/classname";
 import "./style.css";
 import useTranslate from "../../hooks/use-translate";
@@ -9,7 +9,7 @@ import useInit from "../../hooks/use-init";
 import Textarea from "../textarea";
 import SideLayout from "../side-layout";
 
-function CommentForm(props) {
+const CommentForm = forwardRef((props, ref) => {
   const { t } = useTranslate();
   const cn = bem("CommentForm");
 
@@ -23,9 +23,9 @@ function CommentForm(props) {
 
     // Отправка данных формы для авторизации
     onSubmit: useCallback(
-      (e, text, level, list, article, currItem) => {
+      (e, text, level, list, article, currItem, profile) => {
         e.preventDefault();
-        props.onSubmit(text, level, list, article, currItem);
+        props.onSubmit(text, level, list, article, currItem, profile);
       },
       [text]
     ),
@@ -34,8 +34,9 @@ function CommentForm(props) {
   return (
     <form
     className={cn()}
-      style={{ marginLeft: 30 * props.level + "px" }}
-      onSubmit={(e) => callbacks.onSubmit(e, {text}, props.level, props.list, props.article, props.currItem)}
+      style={{ marginLeft: 30 * (props.level > 10 ? 10 : props.level ) + "px" }}
+      onSubmit={(e) => callbacks.onSubmit(e, {text}, props.level, props.list, props.article, props.currItem, props.profile.profile)}
+      ref={ref}
     >
       <h2 className={cn("title")}>{t("add.comment.title")}</h2>
       <Textarea
@@ -58,6 +59,6 @@ function CommentForm(props) {
       )}
     </form>
   );
-}
+})
 
 export default memo(CommentForm);
